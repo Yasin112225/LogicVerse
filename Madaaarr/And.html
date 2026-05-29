@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>آموزش گیت AND</title>
+  <style>
+    /* استایل‌های عمومی */
+    body {
+      font-family: 'Tahoma', sans-serif;
+      background: linear-gradient(135deg, #f0f4f8 0%, #d9e4f5 100%);
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start; /* شروع از بالا */
+      min-height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 900px;
+      margin-top: 30px;
+    }
+
+    h1 {
+      color: #1e3a8a;
+      font-size: 2.5em;
+      margin-bottom: 25px;
+      text-shadow: 2px 2px 8px rgba(173, 216, 230, 0.6);
+    }
+    
+    h2 {
+        color: #2563eb;
+        font-size: 1.8em;
+        margin-top: 35px;
+        margin-bottom: 15px;
+        border-bottom: 3px solid #dbeafe;
+        padding-bottom: 8px;
+    }
+
+    p {
+      font-size: 1.15em;
+      line-height: 1.9;
+      color: #555;
+      text-align: justify; /* راست‌چین کردن متن */
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px 15px;
+      text-align: center;
+      font-size: 1.1em;
+    }
+
+    th {
+      background: #e0f2fe; /* رنگ ملایم‌تر برای سرستون */
+      color: #1e3a8a;
+      font-weight: bold;
+    }
+    
+    td {
+        background-color: #ffffff; /* زمینه سفید برای سلول‌ها */
+    }
+    
+    tr:nth-child(even) td {
+        background-color: #f8fafc; /* کمی رنگ برای ردیف‌های زوج */
+    }
+
+    .example {
+      background: #e0f2fe; /* رنگ پس‌زمینه برای مثال */
+      padding: 20px;
+      border-radius: 12px;
+      border-right: 6px solid #3b82f6;
+      margin-top: 20px;
+      text-align: right; /* راست‌چین کردن متن مثال */
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    
+    .example-emoji {
+        font-size: 1.4em;
+        margin-left: 10px;
+        vertical-align: middle;
+    }
+
+    /* استایل انیمیشن */
+    .animation-container {
+        margin-top: 30px;
+        background: #f8fafc;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap; /* برای ریسپانسیو بودن */
+        gap: 20px;
+    }
+    
+    .logic-gate {
+        position: relative;
+        width: 150px;
+        height: 100px;
+        margin: 0 60px;
+    }
+    
+    .gate-input {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: #3b82f6;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-weight: bold;
+        font-size: 0.9em;
+    }
+    
+    .gate-input.a { top: 10px; left: -40px; }
+    .gate-input.b { top: 70px; left: -40px; }
+    
+    .gate-output {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background: #f59e0b; /* رنگ خروجی */
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-weight: bold;
+        font-size: 1.1em;
+        right: -50px;
+        top: 40px;
+    }
+    
+    .gate-line {
+        position: absolute;
+        height: 4px;
+        background: #60a5fa;
+        border-radius: 2px;
+    }
+    
+    .line-a { top: 25px; left: -40px; width: 60px; } /* از ورودی به شکل گیت */
+    .line-b { top: 85px; left: -40px; width: 60px; } /* از ورودی به شکل گیت */
+    .line-out { right: -50px; top: 60px; width: 70px; } /* از شکل گیت به خروجی */
+    
+    /* شکل گیت AND (D شکل) */
+    .gate-shape {
+        position: absolute;
+        border-left: 4px solid #60a5fa;
+        border-radius: 50%; /* برای گرد کردن سمت راست */
+        width: 60px;
+        height: 100px;
+        top: 0;
+        left: -60px; /* شروع از انتهای خطوط ورودی */
+    }
+
+    /* دکمه‌ها */
+    .nav-buttons {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .nav-button {
+      display: inline-block;
+      padding: 12px 25px;
+      background: #60a5fa;
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 1.1em;
+      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 10px rgba(96, 165, 250, 0.3);
+    }
+
+    .nav-button:hover {
+      background: #3b82f6;
+      transform: translateY(-3px);
+      box-shadow: 0 7px 15px rgba(59, 130, 246, 0.4);
+    }
+
+    /* برای انیمیشن JavaScript */
+    .input-a.active, .input-b.active, .output.active {
+        background: #f59e0b !important; /* رنگ فعال */
+    }
+    
+    .line-a.active, .line-b.active, .line-out.active {
+        background: #f59e0b !important;
+        box-shadow: 0 0 10px #f59e0b;
+    }
+    
+    .gate-shape.active {
+        border-left-color: #f59e0b !important;
+        box-shadow: 0 0 15px #f59e0b;
+    }
+    
+    .controls{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .butom{
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer; 
+      background-color: #60a5fa; 
+      color: white; 
+      border: none; 
+      border-radius: 8px;
+    }
+
+    .pbot{
+
+      font-size: 0.9em;
+      color: #667;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>گیت AND 🚀</h1>
+
+    <h2>گیت AND چیست؟ 🤔</h2>
+    <p>
+      گیت AND یکی از گیت‌های منطقی پایه‌ای و بسیار مهم در دنیای دیجیتال است. عملکرد اصلی آن این است که خروجی را تنها زمانی 1 (روشن یا True) می‌کند که <b>هر دو ورودی آن 1</b> باشند. اگر حتی یکی از ورودی‌ها 0 (خاموش یا False) باشد، خروجی هم 0 خواهد بود. این گیت را می‌توان به عنوان "شرط and" در منطق در نظر گرفت.
+    </p>
+
+    <h2>جدول درستی گیت AND 📊</h2>
+    <table>
+      <tr>
+        <th>ورودی A</th>
+        <th>ورودی B</th>
+        <th>خروجی</th>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+      </tr>
+    </table>
+
+    <h2>مثال کاربردی 💡</h2>
+    <div class="example">
+      <span class="example-emoji">🚗💨</span> فرض کنید برای روشن کردن ماشین، هم باید سوئیچ را بچرخانید (ورودی A) و هم پدال گاز را فشار دهید (ورودی B). تا زمانی که هر دو کار را انجام ندهید (هر دو 1 باشند)، ماشین روشن نمی‌شود (خروجی 1). اگر یکی از این دو شرط برقرار نباشد، ماشین روشن نمی‌شود.
+    </div>
+
+    <h2>انیمیشن گیت AND 🎬</h2>
+    <div class="animation-container">
+      <div class="logic-gate">
+        <div class="gate-line line-a"></div>
+        <div class="gate-input a">A</div>
+        <div class="gate-line line-b"></div>
+        <div class="gate-input b">B</div>
+        <div class="gate-shape"></div>
+        <div class="gate-line line-out"></div>
+        <div class="gate-output">Out</div>
+      </div>
+      
+      <div class="controls">
+          <button class="butom" onclick="animateGate('AND')">
+              اجرای انیمیشن ⚙️
+          </button>
+          <p class="pbot">(با کلیک، حالت‌های مختلف ورودی را ببینید)</p>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <a href="index.html" class="nav-button">بازگشت به لیست موضوع‌ها 🏠</a>
+      <a href="or.html" class="nav-button">موضوع بعدی: گیت OR ➡️</a>
+    </div>
+  </div>
+
+  <script>
+    // تابع انیمیشن برای گیت AND
+    function animateGate(gateType) {
+        let inputs = ['00', '01', '10', '11'];
+        let currentInputIndex = 0;
+        const gateShape = document.querySelector('.logic-gate .gate-shape');
+        const lineA = document.querySelector('.logic-gate .line-a');
+        const lineB = document.querySelector('.logic-gate .line-b');
+        const lineOut = document.querySelector('.logic-gate .line-out');
+        const inputA = document.querySelector('.logic-gate .gate-input.a');
+        const inputB = document.querySelector('.logic-gate .gate-input.b');
+        const output = document.querySelector('.logic-gate .gate-output');
+
+        function resetStyles() {
+            gateShape.classList.remove('active');
+            lineA.classList.remove('active');
+            lineB.classList.remove('active');
+            lineOut.classList.remove('active');
+            inputA.style.background = '#3b82f6';
+            inputB.style.background = '#3b82f6';
+            output.style.background = '#f59e0b';
+        }
+
+        function updateGateState(inputPair) {
+            resetStyles();
+            const [inA, inB] = inputPair.split('').map(Number);
+            let out = 0; // پیش‌فرض
+
+            if (gateType === 'AND') {
+                out = (inA === 1 && inB === 1) ? 1 : 0;
+                if (inA === 1) inputA.style.background = '#f59e0b';
+                if (inB === 1) inputB.style.background = '#f59e0b';
+                if (out === 1) output.style.background = '#22c55e'; // رنگ سبز برای خروجی 1
+            } else if (gateType === 'OR') {
+                out = (inA === 1 || inB === 1) ? 1 : 0;
+                if (inA === 1) inputA.style.background = '#f59e0b';
+                if (inB === 1) inputB.style.background = '#f59e0b';
+                if (out === 1) output.style.background = '#22c55e';
+            } else if (gateType === 'NOT') {
+                out = (inA === 1) ? 0 : 1;
+                if (inA === 1) inputA.style.background = '#f59e0b';
+                if (out === 0) output.style.background = '#f59e0b'; // رنگ نارنجی برای خروجی 0
+                else output.style.background = '#22c55e';
+            }
+            
+            if (out === 1) { // اگر خروجی 1 بود، عناصر مربوطه فعال می شوند
+                lineOut.classList.add('active');
+                gateShape.classList.add('active');
+            } else { // اگر خروجی 0 بود
+                output.style.background = '#f59e0b'; // خروجی نارنجی می ماند
+            }
+        }
+
+        // اجرای انیمیشن به صورت متوالی
+        const interval = setInterval(() => {
+            updateGateState(inputs[currentInputIndex]);
+            currentInputIndex++;
+            if (currentInputIndex === inputs.length) {
+                currentInputIndex = 0; // حلقه از اول
+            }
+        }, 1500); // هر 1.5 ثانیه یک وضعیت جدید
+
+        // برای جلوگیری از اجرای چندباره انیمیشن
+        animateGate.intervalId = interval; // ذخیره ID برای پاک کردن
+    }
+
+    // اجرای انیمیشن گیت AND به محض بارگذاری صفحه
+    document.addEventListener('DOMContentLoaded', () => {
+        animateGate('AND'); 
+    });
+
+    // پاک کردن انیمیشن قبلی در صورت تغییر صفحه یا خروج
+    window.addEventListener('beforeunload', () => {
+        if (animateGate.intervalId) {
+            clearInterval(animateGate.intervalId);
+        }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فلیپ فلاپ D</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            margin: 40px auto;
+            text-align: right;
+        }
+        h1 {
+            color: #0056b3;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .content-section {
+            margin-bottom: 30px;
+            text-align: right;
+        }
+        h2 {
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+        p, ul {
+            margin-bottom: 15px;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .example {
+            background-color: #e7f3ff;
+            border-left: 5px solid #007bff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: right;
+        }
+        .code {
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            background-color: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .animation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .flipflop-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px 20px;
+        }
+        .flipflop-section label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #0056b3;
+        }
+        .wire {
+            width: 10px;
+            height: 50px;
+            background-color: #6c757d;
+            margin: 5px 0;
+        }
+        .circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #adb5bd;
+            border: 3px solid #495057;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: white;
+            font-size: 14px;
+            transition: background-color 0.5s ease;
+        }
+        .circle.active {
+            background-color: #28a745; /* سبز برای حالت فعال (1) */
+        }
+        .clock-indicator {
+            width: 20px;
+            height: 20px;
+            background-color: #ffc107;
+            border: 2px solid #d39e00;
+            border-radius: 50%;
+            margin: 5px 0;
+            position: relative;
+        }
+        .clock-indicator::after {
+            content: '>';
+            position: absolute;
+            top: -1px;
+            left: 5px;
+            font-size: 12px;
+            color: #d39e00;
+            font-weight: bold;
+        }
+
+        .flipflop-core {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            position: relative;
+            border: 2px dashed #007bff;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #e7f3ff;
+            width: 100%;
+            justify-content: space-around;
+        }
+        .flipflop-core::before {
+            content: 'SR Latch (Internal)';
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background-color: #f4f7f6;
+            padding: 0 5px;
+            font-size: 12px;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .output-pair {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+        }
+        .output-pair label {
+            color: #007bff;
+        }
+
+        .animation-controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .navigation-buttons {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .navigation-buttons button {
+            background-color: #6c757d;
+        }
+        .navigation-buttons button:hover {
+            background-color: #5a6268;
+        }
+         .next-button {
+             background-color: #28a745;
+        }
+         .next-button:hover {
+             background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>فلیپ فلاپ D (Data Flip-Flop)</h1>
+
+        <div class="content-section">
+            <h2>توضیحات</h2>
+            <p>
+                فلیپ فلاپ D یک مدار ذخیره‌سازی دیجیتال است که قادر به نگهداری یک بیت داده (0 یا 1) است. این فلیپ فلاپ دارای یک ورودی داده (D) و یک ورودی کلاک (Clock) است. مقدار ورودی D در لحظه‌ای که لبه فعال کلاک (معمولاً لبه بالارونده) رخ می‌دهد، در خروجی Q ذخیره شده و تا زمان لبه فعال بعدی کلاک حفظ می‌شود. همچنین یک خروجی مکمل (Q') نیز وجود دارد که همیشه مقدار معکوس Q را نشان می‌دهد. فلیپ فلاپ D به دلیل سادگی و کارایی، جزء اصلی بسیاری از مدارهای دیجیتال مانند رجیسترها و حافظه‌ها است.
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h2>جدول درستی (برای لبه بالارونده کلاک)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>کلاک (CLK)</th>
+                        <th>ورودی D</th>
+                        <th>خروجی Q</th>
+                        <th>خروجی Q'</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>لبه بالا رونده</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>لبه بالا رونده</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>غیر فعال (پایین رونده یا سطح بالا/پایین)</td>
+                        <td>X (هر مقداری)</td>
+                        <td>حالت قبلی Q</td>
+                        <td>حالت قبلی Q'</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><small>X: مقدار نامربوط یا حالت قبلی</small></p>
+        </div>
+
+        <div class="content-section">
+            <h2>نحوه کارکرد و انیمیشن</h2>
+            <div class="animation-container">
+                <div class="flipflop-section">
+                    <label>ورودی داده (D)</label>
+                    <div class="wire"></div>
+                    <div id="inputD" class="circle">0</div>
+                </div>
+                 <div class="flipflop-section">
+                    <label>کلاک (CLK)</label>
+                    <div class="wire" style="background-color: #dc3545;"></div> <!-- سیم کلاک با رنگ متفاوت -->
+                    <div class="clock-indicator"></div>
+                </div>
+                <!-- بخش نمایشگر درونی SR Latch -->
+                <div class="flipflop-core">
+                    <div class="output-pair">
+                        <label>خروجی Q</label>
+                        <div class="wire" style="height: 40px; background-color: #28a745;"></div>
+                        <div id="outputQ" class="circle" style="background-color: #28a745;">0</div>
+                    </div>
+                    <div class="output-pair">
+                        <label>خروجی Q'</label>
+                        <div class="wire" style="height: 40px; background-color: #6c757d;"></div>
+                        <div id="outputQPrime" class="circle" style="background-color: #6c757d;">1</div>
+                    </div>
+                </div>
+            </div>
+            <div class="animation-controls">
+                 <button onclick="changeInputD()">تغییر ورودی D</button>
+                 <button onclick="triggerClock()">اعمال پالس کلاک</button>
+            </div>
+        </div>
+
+        <div class="navigation-buttons">
+            <button onclick="window.location.href='not.html'">بازگشت به گیت NOT</button>
+            <button class="next-button" onclick="window.location.href='comparator.html'">موضوع بعدی (Comparator)</button>
+        </div>
+    </div>
+
+    <script>
+        let inputDState = 0; // 0 or 1
+        let outputQState = 0; // Stores the current state of Q
+        let outputQPrimeState = 1; // Stores the current state of Q'
+
+        const inputDElement = document.getElementById('inputD');
+        const outputQElement = document.getElementById('outputQ');
+        const outputQPrimeElement = document.getElementById('outputQPrime');
+
+        function updateVisuals() {
+            inputDElement.textContent = inputDState;
+            inputDElement.classList.toggle('active', inputDState === 1);
+
+            outputQElement.textContent = outputQState;
+            outputQElement.classList.toggle('active', outputQState === 1);
+            outputQElement.style.backgroundColor = outputQState === 1 ? '#28a745' : '#adb5bd'; // سبز برای 1، خاکستری برای 0
+
+            outputQPrimeElement.textContent = outputQPrimeState;
+            outputQPrimeElement.classList.toggle('active', outputQPrimeState === 1);
+            outputQPrimeElement.style.backgroundColor = outputQPrimeState === 1 ? '#28a745' : '#adb5bd'; // سبز برای 1، خاکستری برای 0
+        }
+
+        function changeInputD() {
+            inputDState = 1 - inputDState; // Toggle between 0 and 1
+            inputDElement.textContent = inputDState;
+            inputDElement.classList.toggle('active', inputDState === 1);
+            console.log("Input D changed to:", inputDState);
+        }
+
+        function triggerClock() {
+            console.log("Clock triggered. Input D:", inputDState, "Current Q:", outputQState);
+            // On the rising edge of the clock, the value of D is transferred to Q
+            outputQState = inputDState;
+            outputQPrimeState = 1 - outputQState; // Q' is the inverse of Q
+            updateVisuals();
+            console.log("Output Q updated to:", outputQState);
+
+            // Visual feedback for clock trigger (optional: could add a pulse effect)
+             const clockIndicator = document.querySelector('.clock-indicator');
+             clockIndicator.style.backgroundColor = '#dc3545'; // Red
+             setTimeout(() => {
+                 clockIndicator.style.backgroundColor = '#ffc107'; // Yellow
+             }, 200);
+        }
+
+        // Initialize visuals on page load
+        updateVisuals();
+    </script>
+</body>
+</html>

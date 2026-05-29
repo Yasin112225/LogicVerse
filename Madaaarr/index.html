@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>آموزش مدارهای منطقی 🚀</title>
+  <style>
+    /* استایل‌های کلی */
+    body {
+      font-family: 'Tahoma', sans-serif;
+      background: linear-gradient(135deg, #f0f4f8 0%, #d9e4f5 100%);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden; /* برای جلوگیری از اسکرول افقی */
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 900px;
+    }
+
+    h1 {
+      color: #1e3a8a;
+      font-size: 2.8em;
+      margin-bottom: 40px;
+      text-shadow: 2px 2px 8px rgba(173, 216, 230, 0.6);
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .option-card {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid transparent; /* برای افکت هاور */
+    }
+
+    .option-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18);
+      background-color: #f0f9ff; /* کمی رنگ پس‌زمینه */
+      border-color: #3b82f6; /* رنگ حاشیه */
+    }
+
+    .option-card h2 {
+      color: #2563eb;
+      font-size: 1.9em;
+      margin-bottom: 15px;
+    }
+
+    .option-card .emoji {
+      font-size: 3em;
+      margin-bottom: 15px;
+      text-shadow: 0 0 5px rgba(66, 153, 225, 0.5); /* سایه برای ایموجی */
+    }
+
+    /* انیمیشن ورود کارت‌ها */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>مدارهای منطقی را یاد بگیرید! 🧠</h1>
+
+    <div class="options">
+      <a href="and.html" class="option-card">
+        <div class="emoji">🚀</div>
+        <h2>گیت AND</h2>
+      </a>
+      <a href="or.html" class="option-card">
+        <div class="emoji">➕</div>
+        <h2>گیت OR</h2>
+      </a>
+      <a href="not.html" class="option-card">
+        <div class="emoji">🚫</div>
+        <h2>گیت NOT</h2>
+      </a>
+      <a href="flipflop.html" class="option-card">
+        <div class="emoji">🔄</div>
+        <h2>فلیپ‌فلاپ</h2>
+      </a>
+      <a href="comparator.html" class="option-card">
+        <div class="emoji">⚖️</div>
+        <h2>مقایسه‌گر</h2>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // انیمیشن ورود کارت‌ها هنگام بارگذاری صفحه
+    document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.option-card');
+        cards.forEach((card, index) => {
+            card.style.animation = `fadeInUp 0.6s ease forwards ${index * 0.15}s`;
+        });
+    });
+  </script>
+</body>
+</html>

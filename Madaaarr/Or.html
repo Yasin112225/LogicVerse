@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گیت OR منطقی</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 40px auto;
+            text-align: right; /* برای راست‌چین شدن متن فارسی */
+        }
+        h1 {
+            color: #0056b3;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .content-section {
+            margin-bottom: 30px;
+            text-align: right; /* برای راست‌چین شدن متن فارسی */
+        }
+        h2 {
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+        p, ul {
+            margin-bottom: 15px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .example {
+            background-color: #e7f3ff;
+            border-left: 5px solid #007bff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: right; /* برای راست‌چین شدن متن فارسی */
+        }
+        .code {
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            background-color: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .animation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .gate-inputs, .gate-output {
+            display: flex;
+            align-items: center;
+            margin: 0 20px;
+            flex-direction: column; /* برای چیدمان عمودی ورودی‌ها */
+        }
+        .gate-input label, .gate-output label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #0056b3;
+        }
+        .input-wire, .output-wire {
+            width: 50px;
+            height: 10px;
+            background-color: #6c757d;
+            margin: 5px 0;
+        }
+        .input-circle, .output-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #adb5bd; /* رنگ پیش‌فرض */
+            border: 3px solid #495057;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: white;
+            font-size: 14px;
+            transition: background-color 0.5s ease;
+        }
+        .input-circle.active, .output-circle.active {
+            background-color: #28a745; /* سبز برای حالت فعال (1) */
+        }
+        .gate-shape {
+            width: 100px;
+            height: 70px;
+            background-color: #ffffff;
+            border: 3px solid #007bff;
+            border-radius: 0 50% 50% 0 / 50%; /* حالت نیم‌دایره‌ای */
+            position: relative;
+            margin: 0 30px;
+            display: flex;
+            justify-content: flex-end; /* برای قرار دادن خروجی در سمت راست */
+            align-items: center;
+            padding-right: 15px; /* فضای خالی برای خروجی */
+        }
+        .gate-shape::before { /* نمایش خط ورودی‌ها */
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -50px; /* تنظیم موقعیت خط ورودی */
+            width: 50px;
+            height: 3px;
+            background-color: #007bff;
+            transform: translateY(-50%);
+        }
+        .gate-shape::after { /* نمایش خط خروجی */
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -50px; /* تنظیم موقعیت خط خروجی */
+            width: 50px;
+            height: 3px;
+            background-color: #007bff;
+            transform: translateY(-50%);
+        }
+        .animation-controls {
+            margin-top: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .navigation-buttons {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .navigation-buttons button {
+            background-color: #6c757d;
+        }
+        .navigation-buttons button:hover {
+            background-color: #5a6268;
+        }
+        .next-button {
+             background-color: #28a745;
+        }
+         .next-button:hover {
+             background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>گیت OR منطقی</h1>
+
+        <div class="content-section">
+            <h2>توضیحات</h2>
+            <p>
+                گیت OR یک گیت منطقی ترکیبی است که حداقل یکی از ورودی‌های آن برابر با '1' (True) باشد، خروجی آن '1' خواهد بود. در غیر این صورت (اگر همه ورودی‌ها '0' باشند)، خروجی '0' خواهد بود. این گیت اساساً عمل "یا" را در منطق انجام می‌دهد.
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h2>جدول درستی (Truth Table)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ورودی A</th>
+                        <th>ورودی B</th>
+                        <th>خروجی Y</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <h2>مثال</h2>
+            <p>
+                فرض کنید دو کلید برق (ورودی A و B) داریم که به یک لامپ (خروجی Y) وصل هستند. اگر کلید A را بزنیم، لامپ روشن می‌شود. اگر کلید B را بزنیم، لامپ روشن می‌شود. و اگر هر دو را با هم بزنیم هم لامپ روشن می‌شود. تنها حالتی که لامپ خاموش می‌ماند این است که هیچ‌کدام از کلیدها را نزنیم.
+            </p>
+            <p>
+                در مدارهای دیجیتال، '0' نشان‌دهنده ولتاژ پایین (False) و '1' نشان‌دهنده ولتاژ بالا (True) است.
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h2>انیمیشن گیت OR</h2>
+            <div class="animation-container">
+                <div class="gate-inputs">
+                    <label>ورودی A</label>
+                    <div class="input-wire"></div>
+                    <div id="inputA" class="input-circle">0</div>
+                </div>
+
+                <div class="gate-shape">
+                    <div class="gate-output">
+                        <label>خروجی Y</label>
+                        <div class="output-wire"></div>
+                        <div id="outputY" class="output-circle">0</div>
+                    </div>
+                </div>
+
+                <div class="gate-inputs">
+                    <label>ورودی B</label>
+                    <div class="input-wire"></div>
+                    <div id="inputB" class="input-circle">0</div>
+                </div>
+            </div>
+            <div class="animation-controls">
+                 <button onclick="toggleAnimation()">تغییر حالت ورودی‌ها</button>
+            </div>
+        </div>
+
+        <div class="navigation-buttons">
+            <button onclick="window.location.href='index.html'">بازگشت به لیست</button>
+            <!-- فرض می‌کنیم فایل بعدی not.html باشد، در صورت نیاز تغییر دهید -->
+            <button class="next-button" onclick="window.location.href='not.html'">موضوع بعدی (NOT Gate)</button>
+        </div>
+    </div>
+
+    <script>
+        let currentState = 0; // 0: 00, 1: 01, 2: 10, 3: 11
+        const states = [
+            { a: 0, b: 0, y: 0 },
+            { a: 0, b: 1, y: 1 },
+            { a: 1, b: 0, y: 1 },
+            { a: 1, b: 1, y: 1 }
+        ];
+
+        const inputAElement = document.getElementById('inputA');
+        const inputBElement = document.getElementById('inputB');
+        const outputYElement = document.getElementById('outputY');
+
+        function updateGateVisuals(a, b, y) {
+            inputAElement.textContent = a;
+            inputBElement.textContent = b;
+            outputYElement.textContent = y;
+
+            inputAElement.classList.toggle('active', a === 1);
+            inputBElement.classList.toggle('active', b === 1);
+            outputYElement.classList.toggle('active', y === 1);
+        }
+
+        function toggleAnimation() {
+            currentState = (currentState + 1) % states.length;
+            const { a, b, y } = states[currentState];
+            updateGateVisuals(a, b, y);
+        }
+
+        // نمایش حالت اولیه
+        updateGateVisuals(states[0].a, states[0].b, states[0].y);
+    </script>
+</body>
+</html>

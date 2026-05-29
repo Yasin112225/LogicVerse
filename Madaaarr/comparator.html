@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مقایسه‌گر (Comparator)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 40px auto;
+            text-align: right;
+        }
+        h1 {
+            color: #0056b3;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .content-section {
+            margin-bottom: 30px;
+            text-align: right;
+        }
+        h2 {
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+        p, ul {
+            margin-bottom: 15px;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .example {
+            background-color: #e7f3ff;
+            border-left: 5px solid #007bff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: right;
+        }
+        .code {
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            background-color: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .inputs-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .number-input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px 15px;
+        }
+        .number-input label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #0056b3;
+        }
+        .binary-digits {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .binary-digit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 5px;
+        }
+        .binary-digit .wire {
+            width: 10px;
+            height: 40px;
+            background-color: #6c757d;
+            margin: 5px 0;
+        }
+        .binary-digit .circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #adb5bd;
+            border: 3px solid #495057;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: white;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        .binary-digit .circle.active {
+            background-color: #28a745; /* سبز برای 1 */
+        }
+
+        .outputs-section {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .output-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .output-indicator label {
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .output-indicator .indicator-light {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: #6c757d; /* پیش فرض خاکستری */
+            border: 3px solid #495057;
+            transition: background-color 0.5s ease;
+        }
+        .output-indicator .indicator-light.active {
+            background-color: #28a745; /* سبز برای فعال */
+        }
+
+        .controls {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .navigation-buttons {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .navigation-buttons button {
+            background-color: #6c757d;
+        }
+        .navigation-buttons button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>مقایسه‌گر (Comparator)</h1>
+
+        <div class="content-section">
+            <h2>توضیحات</h2>
+            <p>
+                مقایسه‌گر مداری است که دو عدد ورودی با طول بیت یکسان (در اینجا 4 بیت) را دریافت می‌کند و سه خروجی اصلی تولید می‌کند:
+            </p>
+            <ul>
+                <li><b>A > B</b>: اگر عدد A بزرگتر از عدد B باشد، این خروجی فعال (1) می‌شود.</li>
+                <li><b>A < B</b>: اگر عدد A کوچکتر از عدد B باشد، این خروجی فعال (1) می‌شود.</li>
+                <li><b>A = B</b>: اگر عدد A مساوی عدد B باشد، این خروجی فعال (1) می‌شود.</li>
+            </ul>
+            <p>
+                این مقایسه‌گر بر اساس مقایسه بیت به بیت از چپ به راست (بیت‌های پرارزش‌تر) عمل می‌کند. اگر در بیتی A بزرگتر از B باشد، خروجی A > B فعال می‌شود و مقایسه متوقف می‌شود. اگر A کوچکتر باشد، A < B فعال می‌شود. اگر بیت‌ها مساوی باشند، مقایسه به بیت بعدی منتقل می‌شود. تنها زمانی خروجی A = B فعال می‌شود که تمام بیت‌ها مساوی باشند.
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h2>ورودی‌ها</h2>
+            <div class="inputs-section">
+                <div class="number-input" id="inputA-section">
+                    <label>عدد A (4 بیت)</label>
+                    <div class="binary-digits">
+                        <div class="binary-digit">
+                            <div class="wire"></div>
+                            <div id="A3" class="circle">0</div> <!-- MSB -->
+                            <span>A3</span>
+                        </div>
+                        <div class="binary-digit">
+                            <div class="wire"></div>
+                            <div id="A2" class="circle">0</div>
+                            <span>A2</span>
+                        </div>
+                        <div class="binary-digit">
+                            <div class="wire"></div>
+                            <div id="A1" class="circle">0</div>
+                            <span>A1</span>
+                        </div>
+                        <div class="binary-digit">
+                            <div class="wire"></div>
+                            <div id="A0" class="circle">0</div> <!-- LSB -->
+                            <span>A0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="number-input" id="inputB-section">
+                    <label>عدد B (4 بیت)</label>
+                    <div class="binary-digits">
+                        <div class="binary-digit">
+                            <div class="wire"></div>
+                            <div id="B3" class="circle">0</div> <!-- MSB -->
+                            <span>B3</span>
+                        </div>
+                        <div class="binary-digit">
+                            <div class="wire"></div>
+                            <div id="B2" class="circle">0</div>
+                            <span>B2</span>
+                        </div>
+                        <div class="binary-digit">
+                            <div class="wire"></div>
+                            <div id="B1" class="circle">0</div>
+                            <span>B1</span>
+                        </div>
+                        <div class="binary-digit">
+                            <div class="wire"></div>
+                            <div id="B0" class="circle">0</div> <!-- LSB -->
+                            <span>B0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>خروجی‌ها</h2>
+            <div class="outputs-section">
+                <div class="output-indicator">
+                    <label>A > B</label>
+                    <div id="outGt" class="indicator-light"></div>
+                </div>
+                <div class="output-indicator">
+                    <label>A < B</label>
+                    <div id="outLt" class="indicator-light"></div>
+                </div>
+                <div class="output-indicator">
+                    <label>A = B</label>
+                    <div id="outEq" class="indicator-light"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button onclick="randomizeInputs()">تولید اعداد تصادفی</button>
+            <button onclick="updateComparator()">مقایسه</button>
+        </div>
+
+        <div class="navigation-buttons">
+            <button onclick="window.location.href='flipflop.html'">بازگشت به Flip-Flop</button>
+            <!-- اگر پروژه ادامه دارد، لینک بعدی را اینجا اضافه کنید -->
+            <!-- <button class="next-button" onclick="window.location.href='next_topic.html'">موضوع بعدی</button> -->
+        </div>
+    </div>
+
+    <script>
+        // Sample data for 4-bit inputs
+        let inputsA = [0, 0, 0, 0]; // LSB first for easier input handling in JS
+        let inputsB = [0, 0, 0, 0];
+
+        const elementsA = [
+            document.getElementById('A0'), document.getElementById('A1'),
+            document.getElementById('A2'), document.getElementById('A3')
+        ];
+        const elementsB = [
+            document.getElementById('B0'), document.getElementById('B1'),
+            document.getElementById('B2'), document.getElementById('B3')
+        ];
+        const outputs = {
+            gt: document.getElementById('outGt'), // Greater Than
+            lt: document.getElementById('outLt'), // Less Than
+            eq: document.getElementById('outEq')  // Equal
+        };
+
+        function updateVisuals() {
+            for (let i = 0; i < 4; i++) {
+                elementsA[i].textContent = inputsA[i];
+                elementsA[i].classList.toggle('active', inputsA[i] === 1);
+                elementsB[i].textContent = inputsB[i];
+                elementsB[i].classList.toggle('active', inputsB[i] === 1);
+            }
+        }
+
+        function compareNumbers() {
+            // Reverse arrays to compare from MSB (index 3) to LSB (index 0)
+            const arrA = [...inputsA].reverse();
+            const arrB = [...inputsB].reverse();
+
+            let numA = 0;
+            let numB = 0;
+
+            for(let i=0; i<4; i++){
+                numA = (numA << 1) | arrA[i];
+                numB = (numB << 1) | arrB[i];
+            }
+
+            console.log(`Comparing A=${numA} (binary ${arrA.join('')}) and B=${numB} (binary ${arrB.join('')})`);
+
+            let gt = numA > numB;
+            let lt = numA < numB;
+            let eq = numA === numB;
+
+            // Update output lights
+            outputs.gt.classList.toggle('active', gt);
+            outputs.lt.classList.toggle('active', lt);
+            outputs.eq.classList.toggle('active', eq);
+
+            // Reset previous states (optional, good practice)
+            if (!gt) outputs.gt.classList.remove('active');
+            if (!lt) outputs.lt.classList.remove('active');
+            if (!eq) outputs.eq.classList.remove('active');
+
+            // Highlight the active output
+            if (gt) outputs.gt.classList.add('active');
+            else if (lt) outputs.lt.classList.add('active');
+            else if (eq) outputs.eq.classList.add('active');
+        }
+
+        function randomizeInputs() {
+            for (let i = 0; i < 4; i++) {
+                inputsA[i] = Math.random() < 0.5 ? 0 : 1;
+                inputsB[i] = Math.random() < 0.5 ? 0 : 1;
+            }
+            updateVisuals();
+            console.log("Random inputs generated:", inputsA, inputsB);
+        }
+
+        function updateComparator() {
+            compareNumbers();
+        }
+
+        // Initialize visuals on page load
+        updateVisuals();
+    </script>
+</body>
+</html>
